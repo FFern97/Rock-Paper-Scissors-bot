@@ -1,5 +1,3 @@
-# The example function below keeps track of the opponent's history and plays whatever the opponent played two plays ago. It is not a very good player so you will need to change the code to pass the challenge.
-
 import random
 
 # Diccionario para almacenar las combinaciones de las jugadas previas
@@ -19,7 +17,7 @@ play_order = [{
 ideal_response = {'P': 'S', 'R': 'P', 'S': 'R'}
 
 # Función para jugar, ahora con secuencias de 2 a 5 jugadas
-def player(prev_play, opponent_history=[], epsilon=0.07):
+def player(prev_play, opponent_history=[], epsilon=0.1185):
     if not prev_play:
         prev_play = 'R'  # Si no hay jugada previa, comenzar con 'R'
     
