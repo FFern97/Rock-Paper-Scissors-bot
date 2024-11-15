@@ -30,7 +30,7 @@ def player(prev_play, opponent_history=[], epsilon=0.1185):
     
     # Predecir basándonos en secuencias de 2 a 5 jugadas
     best_move = None
-    for seq_len in range(2, 6):  # Ahora cubrimos secuencias de 2, 3, 4 y 5 jugadas
+    for seq_len in range(1, 6):  # Ahora cubrimos secuencias de 2, 3, 4 y 5 jugadas
         if len(opponent_history) >= seq_len:
             sequence = "".join(opponent_history[-seq_len:])
 
