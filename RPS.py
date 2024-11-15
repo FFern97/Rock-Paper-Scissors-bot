@@ -62,3 +62,83 @@ def player(prev_play, opponent_history=[], epsilon=0.1185):
         guess = best_move
 
     return guess
+
+
+
+# Este es otro script con muy buenos promedios. 
+"""
+
+import random
+
+# Diccionario para almacenar las combinaciones de las jugadas previas
+play_order = [{
+    "RR": 0,
+    "RP": 0,
+    "RS": 0,
+    "PR": 0,
+    "PP": 0,
+    "PS": 0,
+    "SR": 0,
+    "SP": 0,
+    "SS": 0,
+}]
+
+# Diccionario de respuestas ideales estándar
+ideal_response = {'P': 'S', 'R': 'P', 'S': 'R'}
+
+# Función para jugar, ahora con secuencias de 2 a 5 jugadas
+def player(prev_play, opponent_history=[], epsilon=0.1185, opponent_type=None):
+    if not prev_play:
+        prev_play = 'R'  # Si no hay jugada previa, comenzar con 'R'
+    
+    # Guardar la jugada previa del oponente
+    opponent_history.append(prev_play)
+
+    # Ajustar epsilon para disminuir la exploración conforme se avanza
+    if len(opponent_history) > 50:
+        epsilon = max(0.1, epsilon - 0.001)  # Reducir gradualmente epsilon
+    
+    # Predecir basándonos en secuencias de 2 a 5 jugadas
+    best_move = None
+    for seq_len in range(1, 6):  # Ahora cubrimos secuencias de 2, 3, 4 y 5 jugadas
+        if len(opponent_history) >= seq_len:
+            sequence = "".join(opponent_history[-seq_len:])
+
+            # Registrar la combinación de jugadas
+            if len(sequence) == seq_len:
+                if sequence not in play_order[0]:
+                    play_order[0][sequence] = 0
+                play_order[0][sequence] += 1
+
+            # Filtrar las jugadas posibles y contar su frecuencia
+            potential_plays = [
+                sequence + "R", sequence + "P", sequence + "S"
+            ]
+            sub_order = {k: play_order[0][k] for k in potential_plays if k in play_order[0]}
+
+            # Si hay jugadas posibles, elegir la más frecuente
+            if sub_order:
+                prediction = max(sub_order, key=sub_order.get)[-1:]
+                best_move = ideal_response[prediction]
+
+    # Si no se encuentra ninguna predicción (es posible al principio), elegir aleatoriamente
+    if best_move is None:
+        best_move = random.choice(["R", "P", "S"])
+
+    # Si el oponente es el jugador 2 (más difícil), aplicar la lógica predictiva
+    if opponent_type == 2:
+        if prev_play == 'R':
+            best_move = 'S'  # Si el oponente juega R, él predice P, jugamos S
+        elif prev_play == 'P':
+            best_move = 'R'  # Si el oponente juega P, él predice S, jugamos R
+        elif prev_play == 'S':
+            best_move = 'P'  # Si el oponente juega S, él predice R, jugamos P
+    
+    # Introducir la aleatoriedad con probabilidad epsilon
+    if random.random() < epsilon:
+        guess = random.choice(["R", "P", "S"])
+    else:
+        guess = best_move
+
+    return guess
+"""
